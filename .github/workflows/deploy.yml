@@ -1,0 +1,50 @@
+name: Deploy RumyFood
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Java 17 Kurulumu
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Projeyi Derle (Build)
+      run: mvn clean package -DskipTests
+
+    - name: Dosyalari Sunucuya Tasi
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_KEY }}
+        source: "target/*.jar"
+        target: "/home/ubuntu/app_temp"
+
+    - name: Uygulamayi Baslat
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          # Servisi durdur
+          sudo systemctl stop rumyfood
+          
+          # Yeni dosyayi yerine koy
+          rm -f /home/ubuntu/rumyfood-app.jar
+          mv /home/ubuntu/app_temp/target/*.jar /home/ubuntu/rumyfood-app.jar
+          
+          # Gecici dosyalari temizle
+          rm -rf /home/ubuntu/app_temp
+          
+          # Yeniden baslat
+          sudo systemctl daemon-reload
+          sudo systemctl start rumyfood
