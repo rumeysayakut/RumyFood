@@ -10,6 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // Tarayıcıdan "/uploads/**" isteği gelirse, bunu ana dizindeki "uploads" klasörüne yönlendir
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:uploads/");
+        .addResourceLocations("file:" + System.getProperty("user.home") + "/uploads/");
     }
 }
+

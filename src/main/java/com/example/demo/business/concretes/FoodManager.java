@@ -6,8 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.UUID;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -113,8 +113,13 @@ public class FoodManager implements FoodService {
         OwnerProfile owner = ownerProfileRepository.findById(ownerId)
                 .orElseThrow(() -> new RuntimeException("Owner bulunamadı"));
 
-        String uploadDir = "uploads/";
+        // DÜZELTME: İşletim sisteminin ana dizinini alıyoruz (Linux ve Windows uyumlu)
+        String uploadDir = System.getProperty("user.home") + "/uploads/";
+        
+        // Klasör yoksa oluştur
         Files.createDirectories(Paths.get(uploadDir));
+        
+        // Dosya adını benzersiz yap ve kaydet
         String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
         Path path = Paths.get(uploadDir, fileName);
         Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
@@ -142,9 +147,12 @@ public class FoodManager implements FoodService {
         existingFood.setAddress(updatedFood.getAddress());
 
         if (imageFile != null && !imageFile.isEmpty()) {
-            Files.createDirectories(Paths.get("uploads/"));
+            // DÜZELTME: Güncelleme için de aynı yolu kullanıyoruz
+            String uploadDir = System.getProperty("user.home") + "/uploads/";
+            
+            Files.createDirectories(Paths.get(uploadDir));
             String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-            Path path = Paths.get("uploads", fileName);
+            Path path = Paths.get(uploadDir, fileName);
             Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             existingFood.setImageUrl(fileName);
         }
