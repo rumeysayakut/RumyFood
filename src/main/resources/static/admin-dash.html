@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RumyFood - Admin Paneli</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .sidebar { min-width: 250px; background-color: #212529; min-height: 100vh; }
+        .nav-link { color: #adb5bd; padding: 12px 20px; cursor: pointer; transition: 0.3s;}
+        .nav-link:hover, .nav-link.active { background: #dc3545; color: white; border-left: 4px solid white; }
+        .content-area { flex-grow: 1; background-color: #f8f9fa; padding: 30px; }
+        .section { display: none; }
+        .section.active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="d-flex">
+    <nav class="sidebar shadow">
+        <div class="p-4"><h3 class="text-white fw-bold">Admin Panel</h3></div>
+        <ul class="nav flex-column mt-3">
+            <li class="nav-item"><a class="nav-link active" onclick="showSection('home')"><i class="fas fa-home me-2"></i> Anasayfa</a></li>
+            <li class="nav-item"><a class="nav-link" onclick="showSection('users')"><i class="fas fa-users me-2"></i> Kullanıcılar</a></li>
+            <li class="nav-item"><a class="nav-link" onclick="showSection('foods')"><i class="fas fa-utensils me-2"></i> Tüm Yemekler</a></li>
+            <li class="nav-item mt-5"><a class="nav-link text-warning" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-area">
+        
+        <div id="homeSection" class="section active">
+            <h2 class="mb-4">Sistem Özeti</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 bg-primary text-white p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-0">Toplam Kullanıcı</h5>
+                                <h1 class="display-4 fw-bold mt-2" id="statTotalUsers">0</h1>
+                            </div>
+                            <i class="fas fa-users fa-4x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 bg-success text-white p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-0">Toplam Yemek Satışı</h5>
+                                <h1 class="display-4 fw-bold mt-2" id="statTotalSales">0</h1>
+                            </div>
+                            <i class="fas fa-chart-line fa-4x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="usersSection" class="section">
+            <h2 class="mb-4">Kullanıcı Yönetimi</h2>
+            <div class="card shadow border-0 p-4">
+                <div class="d-flex justify-content-end mb-3">
+                    <select id="roleFilter" class="form-select w-auto" onchange="filterUsers()">
+                        <option value="ALL">Tümü</option>
+                        <option value="CUSTOMER">Müşteriler</option>
+                        <option value="OWNER">Restoran Sahipleri</option>
+                    </select>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark"><tr><th>ID</th><th>Ad Soyad</th><th>Email</th><th>Rol</th><th>İşlem</th></tr></thead>
+                        <tbody id="userTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="foodsSection" class="section">
+            <h2 class="mb-4">Tüm Yemekler</h2>
+            <div class="card shadow border-0 p-4">
+                <input type="text" id="foodSearch" class="form-control mb-3" placeholder="Yemek veya Restoran ara..." onkeyup="searchFoods()">
+                <div class="row g-3" id="adminFoodContainer"></div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Siparişlerim</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+  <style>
+    .grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap:16px; }
+    .card { border:1px solid #ddd; border-radius:8px; padding:14px; }
+    .muted { color:#666; font-size:.9rem; }
+    .row { display:flex; justify-content:space-between; margin:.25rem 0; }
+    .btn { padding:8px 12px; background:#333; color:#fff; text-decoration:none; border-radius:4px; }
+  </style>
+</head>
+<body>
+
+  
+  <div th:replace="~{header :: navbar}"></div>
+
+  <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <h2>Siparişlerim</h2>
+    <div><a th:href="@{/}" class="btn" style="background:#666">Ana Sayfa</a></div>
+  </header>
+
+  <main>
+    <div th:if="${#lists.isEmpty(siparisler)}">Henüz siparişiniz yok.</div>
+
+    <div class="grid" th:if="${!#lists.isEmpty(siparisler)}">
+      <div class="card" th:each="s : ${siparisler}">
+        <div class="row"><strong>№</strong><span th:text="${s.id}"></span></div>
+        <div class="row"><span class="muted">Tarih</span><span th:text="${#temporals.format(s.olusturmaZamani,'dd.MM.yyyy HH:mm')}"></span></div>
+        <div class="row"><span class="muted">Kalem</span><span th:text="${#lists.size(s.kalemler)}"></span></div>
+        <div class="row"><span class="muted">Ara Toplam</span><span th:text="${#numbers.formatDecimal(s.araToplam,1,2)}"></span></div>
+        <div class="row"><span class="muted">İskonto</span><span th:text="${#numbers.formatDecimal(s.toplamIskonto,1,2)}"></span></div>
+        <div class="row"><span class="muted">Toplam KDV</span><span th:text="${#numbers.formatDecimal(s.toplamKdv,1,2)}"></span></div>
+        <hr>
+        <div class="row" style="font-weight:700"><span>Genel Toplam</span><span th:text="${#numbers.formatDecimal(s.genelToplam,1,2)}"></span></div>
+        <div style="margin-top:10px"><a class="btn" th:href="@{|/siparis/${s.id}|}">Detay</a></div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+:root {
+    --orange: #ff6b1a;
+    --dark: #2d3436;
+}
+
+.badge {
+    color: #000 !important; /* Yazı rengini zorla siyah yapar */
+    font-size: 0.85rem;
+    padding: 6px 12px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.auth-bg {
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+}
+
+.text-orange { color: var(--orange); }
+.btn-orange {
+    background-color: var(--orange);
+    color: white;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn-orange:hover {
+    background-color: #e65a00;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 15px;
+    border: none;
+}
+
+.form-control:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 0.25rem rgba(255, 107, 26, 0.25);
+}

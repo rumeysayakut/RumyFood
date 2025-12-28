@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RumyFood - Giriş Yap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-bg">
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card auth-card shadow-lg p-4">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-orange">RumyFood</h2>
+                <p class="text-muted">Lezzete giden yol burada başlar</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label">E-posta Adresi</label>
+                    <input type="email" id="email" class="form-control" placeholder="admin@rumyfood.com" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Şifre</label>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-orange w-100 mb-3">Giriş Yap</button>
+                <div class="text-center">
+                    <span>Hesabın yok mu? <a href="register.html" class="text-orange text-decoration-none fw-bold">Kayıt Ol</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

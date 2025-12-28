@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RumyFood - Müşteri Paneli</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .sidebar { min-width: 250px; background-color: #212529; min-height: 100vh; }
+        .nav-link { color: #adb5bd; padding: 12px 20px; cursor: pointer; }
+        .nav-link:hover, .nav-link.active { background: #ff6b1a; color: white; border-left: 4px solid white; }
+        .content-area { flex-grow: 1; background-color: #f8f9fa; padding: 30px; }
+        .section { display: none; }
+        .section.active { display: block; }
+        .food-img { height: 200px; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+<div class="d-flex">
+    <nav class="sidebar shadow">
+        <div class="p-4"><h3 class="text-orange fw-bold">RumyFood</h3></div>
+        <ul class="nav flex-column mt-3">
+            <li class="nav-item"><a class="nav-link active" onclick="showSection('home')"><i class="fas fa-home me-2"></i> Anasayfa</a></li>
+            <li class="nav-item"><a class="nav-link" onclick="showSection('menu')"><i class="fas fa-utensils me-2"></i> Yemekler</a></li>
+            <li class="nav-item"><a class="nav-link" onclick="showSection('cart')"><i class="fas fa-shopping-cart me-2"></i> Sepetim</a></li>
+            <li class="nav-item"><a class="nav-link" onclick="showSection('profile')"><i class="fas fa-user me-2"></i> Profilim</a></li>
+            <li class="nav-item mt-5"><a class="nav-link text-danger" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-area">
+        
+        <div id="homeSection" class="section active">
+            <h2 class="mb-4">Hoş Geldin, <span id="customerName" class="text-orange"></span></h2>
+            <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <div class="card shadow-sm p-4 text-center">
+                        <h6 class="text-muted">Toplam Kullanıcı</h6>
+                        <h2 class="fw-bold" id="statUsers">0</h2>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow-sm p-4 text-center border-start border-success border-4">
+                        <h6 class="text-muted">Satılan Yemek (Adet)</h6>
+                        <h2 class="fw-bold text-success" id="statSales">0</h2>
+                    </div>
+                </div>
+            </div>
+            <h4>🔥 En Yeni Lezzetler</h4>
+            <div class="row g-3 mt-2" id="lastFoodsContainer"></div>
+        </div>
+
+        <div id="menuSection" class="section">
+            <h2 class="mb-4">Menü</h2>
+            <div class="d-flex gap-2 mb-4 overflow-auto">
+                <button class="btn btn-outline-dark active" onclick="filterMenu('All', this)">Tümü</button>
+                <button class="btn btn-outline-dark" onclick="filterMenu('Kebap', this)">Kebaplar</button>
+                <button class="btn btn-outline-dark" onclick="filterMenu('Çorba', this)">Çorbalar</button>
+                <button class="btn btn-outline-dark" onclick="filterMenu('Tatlı', this)">Tatlılar</button>
+            </div>
+            <div class="row g-4" id="menuContainer"></div>
+        </div>
+
+        <div id="cartSection" class="section">
+            <h2 class="mb-4">Sepetim</h2>
+            <div class="card shadow border-0 p-4">
+                <table class="table align-middle">
+                    <thead class="table-light"><tr><th>Ürün</th><th>Miktar</th><th>İşlem</th></tr></thead>
+                    <tbody id="cartTableBody"></tbody>
+                </table>
+                <div class="text-end mt-3">
+                    <button class="btn btn-success btn-lg px-5" onclick="checkout()">Satın Al ✅</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="profileSection" class="section">
+            <div class="card shadow p-4" style="max-width: 600px; margin:0 auto;">
+                <h3>Profil Bilgilerim</h3>
+                <form id="customerProfileForm">
+                    <input type="hidden" id="userId">
+                    <div class="mb-3">
+                        <label>Ad</label>
+                        <input type="text" id="profName" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label>Soyad</label>
+                        <input type="text" id="profSurname" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="text" id="profEmail" class="form-control bg-light" readonly>
+                    </div>
+                    <button type="submit" class="btn btn-orange w-100">Güncelle</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <script src="js/customer.js"></script>
+</body>
+</html>
